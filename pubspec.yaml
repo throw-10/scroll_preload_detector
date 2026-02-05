@@ -1,0 +1,17 @@
+name: scroll_preload_detector
+description: A Flutter widget that triggers a preload callback when approaching the end of a scrollable area. Ideal for infinite scrolling and pagination.
+repository: https://github.com/throw-10/scroll_preload_detector
+version: 0.0.1
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
