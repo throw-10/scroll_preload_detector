@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 /// A widget that detects scroll events and triggers a preload callback when the
@@ -82,6 +83,15 @@ class ScrollPreloadDetector extends StatefulWidget {
 
   @override
   State<ScrollPreloadDetector> createState() => _ScrollPreloadDetectorState();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DoubleProperty('preloadDistance', preloadDistance));
+    properties.add(EnumProperty<Axis?>('scrollDirection', scrollDirection));
+    properties.add(EnumProperty<AxisDirection?>('axisDirection', axisDirection));
+    properties.add(DiagnosticsProperty<bool>('enabled', enabled));
+  }
 }
 
 class _ScrollPreloadDetectorState extends State<ScrollPreloadDetector> {

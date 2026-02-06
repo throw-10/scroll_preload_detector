@@ -1,14 +1,17 @@
 import 'dart:math';
 
 class MockApi {
-  static const int _pageSize = 10;
-  static const int _maxItems = 1000;
-
   /// Simulates fetching items from a network source.
   ///
   /// [currentCount] is the current number of items loaded.
+  /// [pageSize] is the number of items per page (default: 10).
+  /// [maxItems] is the maximum total items available (default: 1000).
   /// Returns a [MockResponse] containing new items and whether there are more items.
-  Future<MockResponse> fetchItems(int currentCount) async {
+  Future<MockResponse> fetchItems(
+    int currentCount, {
+    int pageSize = 10,
+    int maxItems = 1000,
+  }) async {
     // Simulate network delay: 50ms to 600ms
     final random = Random();
     final delay = random.nextInt(550) + 50;
@@ -16,11 +19,11 @@ class MockApi {
 
     // Generate more items
     final newItems = List.generate(
-      _pageSize,
+      pageSize,
       (index) => 'Item ${currentCount + index}',
     );
 
-    final bool hasMore = (currentCount + newItems.length) < _maxItems;
+    final bool hasMore = (currentCount + newItems.length) < maxItems;
 
     return MockResponse(items: newItems, hasMore: hasMore);
   }

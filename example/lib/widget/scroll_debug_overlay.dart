@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 
-class ScrollDebugOverlay extends StatefulWidget {
+/// A debug overlay that displays loading states for multiple sections.
+class ScrollDebugOverlay extends StatelessWidget {
   const ScrollDebugOverlay({
     super.key,
     required this.child,
-    required this.isLoading,
+    this.loadingStates = const {},
   });
 
+  /// The widget below this widget in the tree.
   final Widget child;
-  final bool isLoading;
 
-  @override
-  State<ScrollDebugOverlay> createState() => _ScrollDebugOverlayState();
-}
+  /// A map of section names to their loading states.
+  final Map<String, bool> loadingStates;
 
-class _ScrollDebugOverlayState extends State<ScrollDebugOverlay> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        widget.child,
+        child,
         Positioned(
           left: 16,
           top: 16,
@@ -27,29 +26,56 @@ class _ScrollDebugOverlayState extends State<ScrollDebugOverlay> {
             color: Colors.black54,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Loading Status: ',
-                      style: TextStyle(color: Colors.white)),
-                  Icon(
-                    widget.isLoading ? Icons.circle : Icons.circle_outlined,
-                    color: widget.isLoading ? Colors.green : Colors.grey,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    widget.isLoading ? 'Loading...' : 'Idle',
+                  const Text(
+                    'Loading Status',
                     style: TextStyle(
-                      color: widget.isLoading ? Colors.green : Colors.white,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  ...loadingStates.entries.map((entry) => _buildStatusRow(
+                        entry.key,
+                        entry.value,
+                      )),
                 ],
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildStatusRow(String name, bool isLoading) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$name: ',
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
+          Icon(
+            isLoading ? Icons.circle : Icons.circle_outlined,
+            color: isLoading ? Colors.green : Colors.grey,
+            size: 12,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            isLoading ? 'Loading...' : 'Idle',
+            style: TextStyle(
+              color: isLoading ? Colors.green : Colors.white70,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
