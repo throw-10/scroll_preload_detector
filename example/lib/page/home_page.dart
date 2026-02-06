@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'example_page.dart';
+import 'list_view_example_page.dart';
+import 'sliver_example_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,7 +21,21 @@ class HomePage extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const ExamplePage(),
+                  builder: (context) => const ListViewExamplePage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Sliver Example'),
+            subtitle: const Text(
+              'Uses SliverPreloadTrigger with complex CustomScrollView',
+            ),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SliverExamplePage(),
                 ),
               );
             },

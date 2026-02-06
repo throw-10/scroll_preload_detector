@@ -1,17 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scroll_preload_detector/scroll_preload_detector.dart';
+
 import '../api/mock_api.dart';
+import '../widget/list_footer.dart';
 import '../widget/scroll_debug_overlay.dart';
 
-class ExamplePage extends StatefulWidget {
-  const ExamplePage({super.key});
+class ListViewExamplePage extends StatefulWidget {
+  const ListViewExamplePage({super.key});
 
   @override
-  State<ExamplePage> createState() => _ExamplePageState();
+  State<ListViewExamplePage> createState() => _ListViewExamplePageState();
 }
 
-class _ExamplePageState extends State<ExamplePage> {
+class _ListViewExamplePageState extends State<ListViewExamplePage> {
   final MockApi _api = MockApi();
   final List<String> _items = List.generate(20, (index) => 'Item $index');
 
@@ -68,7 +69,7 @@ class _ExamplePageState extends State<ExamplePage> {
         ],
       ),
       body: ScrollDebugOverlay(
-        isLoading: _isLoading,
+        loadingStates: {'List': _isLoading},
         child: ScrollPreloadDetector(
           enabled: _enablePreload,
           preload: _loadMore,
@@ -89,26 +90,17 @@ class _ExamplePageState extends State<ExamplePage> {
                 child: Container(
                   height: 100,
                   alignment: Alignment.center,
-                  child: _buildFooter(),
+                  child: ListFooter(
+                    isLoading: _isLoading,
+                    hasMore: _hasMore,
+                    onLoadMore: _loadMore,
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildFooter() {
-    if (_isLoading) {
-      return const CupertinoActivityIndicator();
-    }
-    if (!_hasMore) {
-      return const Text('No more data');
-    }
-    return ElevatedButton(
-      onPressed: _loadMore,
-      child: const Text('Load More'),
     );
   }
 }
